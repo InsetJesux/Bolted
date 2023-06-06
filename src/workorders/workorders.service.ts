@@ -5,11 +5,13 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { Repository } from 'typeorm';
+
 import { CreateWorkorderDto } from './dto/create-workorder.dto';
 import { UpdateWorkorderDto } from './dto/update-workorder.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Workorder } from './entities/workorder.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class WorkordersService {
@@ -50,15 +52,15 @@ export class WorkordersService {
   }
 
   async update(id: number, updateWorkorderDto: UpdateWorkorderDto) {
+    const workorder = await this.workorderRepository.preload({
+      id: id,
+      ...updateWorkorderDto,
+    });
+
+    if (!workorder)
+      throw new NotFoundException(`Workorder with id ${id} not found`);
+
     try {
-      const workorder = await this.workorderRepository.preload({
-        id: id,
-        ...updateWorkorderDto,
-      });
-
-      if (!workorder)
-        throw new NotFoundException(`Workorder with id ${id} not found`);
-
       return await this.workorderRepository.save(workorder);
     } catch (error) {
       this.handleDBExceptions(error);
