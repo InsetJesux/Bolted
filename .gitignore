@@ -2,6 +2,12 @@
 /dist
 /node_modules
 
+# Database
+/postgres
+
+# Environment variables
+.env
+
 # Logs
 logs
 *.log
