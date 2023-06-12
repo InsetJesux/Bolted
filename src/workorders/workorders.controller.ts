@@ -6,12 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { WorkordersService } from './workorders.service';
 import { CreateWorkorderDto } from './dto/create-workorder.dto';
 import { UpdateWorkorderDto } from './dto/update-workorder.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('workorders')
+@UseGuards(JwtAuthGuard)
 export class WorkordersController {
   constructor(private readonly workordersService: WorkordersService) {}
 
@@ -21,8 +26,8 @@ export class WorkordersController {
   }
 
   @Get()
-  findAll() {
-    return this.workordersService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.workordersService.findAll(paginationDto);
   }
 
   @Get(':id')

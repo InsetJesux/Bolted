@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import { CreateWorkorderDto } from './dto/create-workorder.dto';
 import { UpdateWorkorderDto } from './dto/update-workorder.dto';
 import { Workorder } from './entities/workorder.entity';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class WorkordersService {
@@ -38,8 +39,24 @@ export class WorkordersService {
     }
   }
 
-  async findAll() {
-    return await this.workorderRepository.find({});
+  async findAll(paginationDto: PaginationDto) {
+    const { limit, offset } = paginationDto;
+
+    return await this.workorderRepository.find({
+      order: { id: 'ASC' },
+      take: limit,
+      skip: offset,
+      relations: {
+        client: {
+          city: {
+            province: true,
+          },
+        },
+        model: {
+          brand: true,
+        },
+      },
+    });
   }
 
   async findOne(id: number) {

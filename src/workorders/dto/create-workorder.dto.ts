@@ -2,18 +2,21 @@ import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
+  IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
+import { Client } from 'src/clients/entities/client.entity';
+import { Model } from 'src/models/entities/model.entity';
 
 export class CreateWorkorderDto {
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
   serial: string;
 
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
   symptoms: string;
 
   @IsDate()
@@ -29,4 +32,12 @@ export class CreateWorkorderDto {
   @IsBoolean()
   @IsOptional()
   isWarranty?: boolean;
+
+  @Type(() => Client)
+  @IsNotEmpty()
+  client: Client;
+
+  @Type(() => Model)
+  @IsNotEmpty()
+  model: Model;
 }

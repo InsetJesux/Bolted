@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class ClientsService {
@@ -34,8 +35,19 @@ export class ClientsService {
     }
   }
 
-  async findAll() {
-    return await this.clientRepository.find({});
+  async findAll(paginationDto: PaginationDto) {
+    const { limit, offset } = paginationDto;
+
+    return await this.clientRepository.find({
+      order: { id: 'ASC' },
+      take: limit,
+      skip: offset,
+      relations: {
+        city: {
+          province: true,
+        },
+      },
+    });
   }
 
   findOne(id: number): Promise<Client | null> {

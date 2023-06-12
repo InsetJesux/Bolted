@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { Brand } from './entities/brand.entity';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Injectable()
 export class BrandsService {
@@ -34,8 +35,14 @@ export class BrandsService {
     }
   }
 
-  async findAll() {
-    return await this.brandRepository.find({});
+  async findAll(paginationDto: PaginationDto) {
+    const { limit, offset } = paginationDto;
+
+    return await this.brandRepository.find({
+      order: { id: 'ASC' },
+      take: limit,
+      skip: offset,
+    });
   }
 
   async findOne(id: number) {
