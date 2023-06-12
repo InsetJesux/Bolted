@@ -19,14 +19,14 @@ export class CreateWorkorderDto {
   @IsDate()
   @IsOptional()
   @Type(() => Date)
-  purchaseDate: string;
+  purchaseDate?: string;
 
   @IsDate()
   @IsOptional()
   @Type(() => Date)
-  warrantyDate: string;
+  warrantyDate?: string;
 
   @IsBoolean()
   @IsOptional()
-  isWarranty: boolean;
+  isWarranty?: boolean;
 }

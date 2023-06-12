@@ -16,12 +16,12 @@ export class Workorder {
   @Column('timestamp', {
     nullable: true,
   })
-  purchaseDate: string;
+  purchaseDate?: string;
 
   @Column('timestamp', {
     nullable: true,
   })
-  warrantyDate: string;
+  warrantyDate?: string;
 
   @Column('boolean', {
     default: false,
