@@ -1,0 +1,38 @@
+import {
+  IsBoolean,
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { UserRole } from '../enums/user-role.enum';
+
+export class CreateUserDto {
+  @IsString()
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @MinLength(6)
+  @MaxLength(50)
+  @Matches(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message:
+      'The password must have an uppercase, lowercase letter and a number',
+  })
+  password: string;
+
+  @IsString()
+  @MinLength(1)
+  name: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isActive: boolean;
+
+  @IsEnum(UserRole)
+  @IsOptional()
+  role: UserRole;
+}

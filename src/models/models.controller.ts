@@ -1,9 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ModelsService } from './models.service';
 import { CreateModelDto } from './dto/create-model.dto';
 import { UpdateModelDto } from './dto/update-model.dto';
+import { PaginationDto } from '../common/dto/pagination.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('models')
+@UseGuards(JwtAuthGuard)
 export class ModelsController {
   constructor(private readonly modelsService: ModelsService) {}
 
@@ -13,8 +26,8 @@ export class ModelsController {
   }
 
   @Get()
-  findAll() {
-    return this.modelsService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.modelsService.findAll(paginationDto);
   }
 
   @Get(':id')

@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Client } from 'src/clients/entities/client.entity';
+import { Model } from 'src/models/entities/model.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({
   name: 'workorders',
@@ -27,4 +35,20 @@ export class Workorder {
     default: false,
   })
   isWarranty: boolean;
+
+  @ManyToOne(() => Client, (client) => client.workorders)
+  @JoinColumn({
+    name: 'workorder_id',
+    referencedColumnName: 'id',
+    foreignKeyConstraintName: 'fk_workorder_id',
+  })
+  client: Client;
+
+  @ManyToOne(() => Model, (model) => model.workorders)
+  @JoinColumn({
+    name: 'model_id',
+    referencedColumnName: 'id',
+    foreignKeyConstraintName: 'fk_model_id',
+  })
+  model: Model;
 }

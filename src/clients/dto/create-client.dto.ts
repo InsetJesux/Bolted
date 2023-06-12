@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsIdentityCard,
   IsOptional,
@@ -5,6 +6,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
+import { City } from 'src/cities/entities/city.entity';
 
 export class CreateClientDto {
   @IsString()
@@ -21,6 +23,12 @@ export class CreateClientDto {
   @IsOptional()
   address?: string;
 
+  @IsString()
   @IsPhoneNumber()
+  @IsOptional()
   phone?: string;
+
+  @Type(() => City)
+  @IsOptional()
+  city?: City;
 }

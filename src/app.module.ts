@@ -8,6 +8,14 @@ import { WorkordersModule } from './workorders/workorders.module';
 import { BrandsModule } from './brands/brands.module';
 import { ModelsModule } from './models/models.module';
 import { ClientsModule } from './clients/clients.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { CommonModule } from './common/common.module';
+import { ProvincesModule } from './provinces/provinces.module';
+import { CitiesModule } from './cities/cities.module';
+import { StoragesModule } from './storages/storages.module';
+import { InventoriesModule } from './inventories/inventories.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -26,6 +34,14 @@ import { ClientsModule } from './clients/clients.module';
     BrandsModule,
     ModelsModule,
     ClientsModule,
+    AuthModule,
+    UsersModule,
+    CommonModule,
+    ProvincesModule,
+    CitiesModule,
+    StoragesModule,
+    InventoriesModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
